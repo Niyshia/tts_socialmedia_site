@@ -14,7 +14,22 @@ class EpicenterController < ApplicationController
   end
 
   def show_user
-  @user = User.find(params[:id])
+    @user = User.find(params[:id])
+
+    @user_location = @user.location
+
+    @response = HTTParty.get("http://api.openweathermap.org/data/2.5/weather?zip=#{params[@user_location]}&units=imperial&appid=#{ENV['openweather_api_key']}")
+
+    @status = @response ["cod"]
+    if @status != "404"
+      @temp = @response["main"] ["temp"]
+      @weather_icon = @response ["weather"][0]["icon"]
+      @weather_words = @response ["weather"][0]["description"]
+      @cloudiness = @response["clouds"] ["all"]
+      @windiness = @response ["wind"] ["speed"]
+    else
+      @error = @response ["message"]
+    end
   end
 
   def now_following

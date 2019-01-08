@@ -57,3 +57,5 @@ gem 'carrierwave' #user image  upload
 gem 'bootstrap-sass'
 gem 'jquery-rails'
 gem 'font-awesome-rails' #bundleinstall
+gem 'httparty'
+gem 'figaro'
